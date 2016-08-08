@@ -1,0 +1,33 @@
+﻿@model XSS_Victim.Models.LoginModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="Title">@ViewBag.Title</div>
+
+<section id="loginForm" style="padding: 10pt;">
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <ul class="inputUL">
+        <li>
+            <label class="inputLabel" style="width: 65pt; display: inline-block;">Username: </label>
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
+        </li>
+        <li>
+            <label class="inputLabel" style="width: 65pt; display: inline-block;">Password: </label>
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </li>
+        <li>
+            @Html.CheckBoxFor(m => m.RememberMe, new { style="margin-left: 65pt;" })
+            @Html.LabelFor(m => m.RememberMe, new { @class = "checkboxLabel" })
+        </li>
+    </ul>
+    <input type="submit" value="Log in" style="margin-left: 65pt; padding: 3pt 15pt;" />
+    <span class="inputLabel" style="margin-left: 65pt; margin-top: 10pt; display: block"><a href='@Url.Action("Register")'>Register</a> if you don't have an account.</span>
+}
+</section>

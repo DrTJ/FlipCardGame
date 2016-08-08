@@ -1,0 +1,639 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FlipCardGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ContactUs">
+          <Key>
+            <PropertyRef Name="IDMessage" />
+          </Key>
+          <Property Name="IDMessage" Type="bigint" Nullable="false" />
+          <Property Name="MessageDateTime" Type="datetime" Nullable="false" />
+          <Property Name="PersonFullName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="WebSite" Type="nvarchar" MaxLength="100" />
+          <Property Name="MessageSubject" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MessageBody" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameQuestions">
+          <Key>
+            <PropertyRef Name="GameID" />
+            <PropertyRef Name="QuestionIndex" />
+          </Key>
+          <Property Name="GameID" Type="int" Nullable="false" />
+          <Property Name="QuestionIndex" Type="int" Nullable="false" />
+          <Property Name="QuestionContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AnswerContent" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="IDGame" />
+          </Key>
+          <Property Name="IDGame" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Timeout" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CardBackImagePath" Type="nvarchar" MaxLength="500" />
+          <Property Name="TimesToPlay" Type="int" Nullable="false" />
+          <Property Name="CardsCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SitePageFragments">
+          <Key>
+            <PropertyRef Name="PageID" />
+            <PropertyRef Name="FragmentIndex" />
+          </Key>
+          <Property Name="PageID" Type="int" Nullable="false" />
+          <Property Name="FragmentIndex" Type="int" Nullable="false" />
+          <Property Name="PageContent" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SitePages">
+          <Key>
+            <PropertyRef Name="IDPage" />
+          </Key>
+          <Property Name="IDPage" Type="int" Nullable="false" />
+          <Property Name="PageInternalName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PageTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="PageContent" Type="nvarchar(max)" />
+          <Property Name="HasFragments" Type="bit" />
+          <Property Name="Published" Type="bit" Nullable="false" />
+          <Property Name="IsMetaEditable" Type="bit" Nullable="false" />
+          <Property Name="IsScript" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPlayedGames">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="GameID" />
+            <PropertyRef Name="GamePlayIndex" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="GameID" Type="int" Nullable="false" />
+          <Property Name="GamePlayIndex" Type="int" Nullable="false" />
+          <Property Name="GameplayDuration" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="StartedAt" Type="datetime" Nullable="false" />
+          <Property Name="FinishedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="IDUser" />
+          </Key>
+          <Property Name="IDUser" Type="int" Nullable="false" />
+          <Property Name="UserFullName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RegisterationDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsEmployee" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GameQuestions_Games">
+          <End Role="Games" Type="Self.Games" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GameQuestions" Type="Self.GameQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="IDGame" />
+            </Principal>
+            <Dependent Role="GameQuestions">
+              <PropertyRef Name="GameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitePageFragments_SitePages">
+          <End Role="SitePages" Type="Self.SitePages" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SitePageFragments" Type="Self.SitePageFragments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SitePages">
+              <PropertyRef Name="IDPage" />
+            </Principal>
+            <Dependent Role="SitePageFragments">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPlayedGames_Games">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="UserPlayedGames" Type="Self.UserPlayedGames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="IDGame" />
+            </Principal>
+            <Dependent Role="UserPlayedGames">
+              <PropertyRef Name="GameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPlayedGames_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserPlayedGames" Type="Self.UserPlayedGames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="UserPlayedGames">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webpages_Membership_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="webpages_Membership" Type="Self.webpages_Membership" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="webpages_Membership">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webpages_UsersInRoles_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webpages_UsersInRoles_webpages_Roles">
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FlipCardGameModelStoreContainer">
+          <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameQuestions" EntityType="Self.GameQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SitePageFragments" EntityType="Self.SitePageFragments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SitePages" EntityType="Self.SitePages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPlayedGames" EntityType="Self.UserPlayedGames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GameQuestions_Games" Association="Self.FK_GameQuestions_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="GameQuestions" EntitySet="GameQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitePageFragments_SitePages" Association="Self.FK_SitePageFragments_SitePages">
+            <End Role="SitePages" EntitySet="SitePages" />
+            <End Role="SitePageFragments" EntitySet="SitePageFragments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPlayedGames_Games" Association="Self.FK_UserPlayedGames_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="UserPlayedGames" EntitySet="UserPlayedGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPlayedGames_Users" Association="Self.FK_UserPlayedGames_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPlayedGames" EntitySet="UserPlayedGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webpages_Membership_Users" Association="Self.FK_webpages_Membership_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="webpages_Membership" EntitySet="webpages_Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webpages_UsersInRoles_Users" Association="Self.FK_webpages_UsersInRoles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webpages_UsersInRoles_webpages_Roles" Association="Self.FK_webpages_UsersInRoles_webpages_Roles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FlipCardGameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FlipCardGameEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ContactUs" EntityType="FlipCardGameModel.ContactUs" />
+          <EntitySet Name="GameQuestions" EntityType="FlipCardGameModel.GameQuestions" />
+          <EntitySet Name="Games" EntityType="FlipCardGameModel.Games" />
+          <EntitySet Name="SitePageFragments" EntityType="FlipCardGameModel.SitePageFragments" />
+          <EntitySet Name="SitePages" EntityType="FlipCardGameModel.SitePages" />
+          <EntitySet Name="UserPlayedGames" EntityType="FlipCardGameModel.UserPlayedGames" />
+          <EntitySet Name="Users" EntityType="FlipCardGameModel.Users" />
+          <EntitySet Name="webpages_Membership" EntityType="FlipCardGameModel.webpages_Membership" />
+          <EntitySet Name="webpages_Roles" EntityType="FlipCardGameModel.webpages_Roles" />
+          <AssociationSet Name="FK_GameQuestions_Games" Association="FlipCardGameModel.FK_GameQuestions_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="GameQuestions" EntitySet="GameQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPlayedGames_Games" Association="FlipCardGameModel.FK_UserPlayedGames_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="UserPlayedGames" EntitySet="UserPlayedGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitePageFragments_SitePages" Association="FlipCardGameModel.FK_SitePageFragments_SitePages">
+            <End Role="SitePages" EntitySet="SitePages" />
+            <End Role="SitePageFragments" EntitySet="SitePageFragments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPlayedGames_Users" Association="FlipCardGameModel.FK_UserPlayedGames_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPlayedGames" EntitySet="UserPlayedGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webpages_Membership_Users" Association="FlipCardGameModel.FK_webpages_Membership_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="webpages_Membership" EntitySet="webpages_Membership" />
+          </AssociationSet>
+          <AssociationSet Name="webpages_UsersInRoles" Association="FlipCardGameModel.webpages_UsersInRoles">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ContactUs">
+          <Key>
+            <PropertyRef Name="IDMessage" />
+          </Key>
+          <Property Name="IDMessage" Type="Int64" Nullable="false" />
+          <Property Name="MessageDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PersonFullName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MessageSubject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MessageBody" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameQuestions">
+          <Key>
+            <PropertyRef Name="GameID" />
+            <PropertyRef Name="QuestionIndex" />
+          </Key>
+          <Property Name="GameID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionIndex" Type="Int32" Nullable="false" />
+          <Property Name="QuestionContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AnswerContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Games" Relationship="FlipCardGameModel.FK_GameQuestions_Games" FromRole="GameQuestions" ToRole="Games" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="IDGame" />
+          </Key>
+          <Property Name="IDGame" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Timeout" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CardBackImagePath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TimesToPlay" Type="Int32" Nullable="false" />
+          <Property Name="CardsCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameQuestions" Relationship="FlipCardGameModel.FK_GameQuestions_Games" FromRole="Games" ToRole="GameQuestions" />
+          <NavigationProperty Name="UserPlayedGames" Relationship="FlipCardGameModel.FK_UserPlayedGames_Games" FromRole="Games" ToRole="UserPlayedGames" />
+        </EntityType>
+        <EntityType Name="SitePageFragments">
+          <Key>
+            <PropertyRef Name="PageID" />
+            <PropertyRef Name="FragmentIndex" />
+          </Key>
+          <Property Name="PageID" Type="Int32" Nullable="false" />
+          <Property Name="FragmentIndex" Type="Int32" Nullable="false" />
+          <Property Name="PageContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SitePages" Relationship="FlipCardGameModel.FK_SitePageFragments_SitePages" FromRole="SitePageFragments" ToRole="SitePages" />
+        </EntityType>
+        <EntityType Name="SitePages">
+          <Key>
+            <PropertyRef Name="IDPage" />
+          </Key>
+          <Property Name="IDPage" Type="Int32" Nullable="false" />
+          <Property Name="PageInternalName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PageContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HasFragments" Type="Boolean" />
+          <Property Name="Published" Type="Boolean" Nullable="false" />
+          <Property Name="IsMetaEditable" Type="Boolean" Nullable="false" />
+          <Property Name="IsScript" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SitePageFragments" Relationship="FlipCardGameModel.FK_SitePageFragments_SitePages" FromRole="SitePages" ToRole="SitePageFragments" />
+        </EntityType>
+        <EntityType Name="UserPlayedGames">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="GameID" />
+            <PropertyRef Name="GamePlayIndex" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="GameID" Type="Int32" Nullable="false" />
+          <Property Name="GamePlayIndex" Type="Int32" Nullable="false" />
+          <Property Name="GameplayDuration" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="StartedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FinishedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Games" Relationship="FlipCardGameModel.FK_UserPlayedGames_Games" FromRole="UserPlayedGames" ToRole="Games" />
+          <NavigationProperty Name="Users" Relationship="FlipCardGameModel.FK_UserPlayedGames_Users" FromRole="UserPlayedGames" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="IDUser" />
+          </Key>
+          <Property Name="IDUser" Type="Int32" Nullable="false" />
+          <Property Name="UserFullName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterationDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="IsEmployee" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UserPlayedGames" Relationship="FlipCardGameModel.FK_UserPlayedGames_Users" FromRole="Users" ToRole="UserPlayedGames" />
+          <NavigationProperty Name="webpages_Membership" Relationship="FlipCardGameModel.FK_webpages_Membership_Users" FromRole="Users" ToRole="webpages_Membership" />
+          <NavigationProperty Name="webpages_Roles" Relationship="FlipCardGameModel.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+          <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="FlipCardGameModel.FK_webpages_Membership_Users" FromRole="webpages_Membership" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="FlipCardGameModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_GameQuestions_Games">
+          <End Type="FlipCardGameModel.Games" Role="Games" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FlipCardGameModel.GameQuestions" Role="GameQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="IDGame" />
+            </Principal>
+            <Dependent Role="GameQuestions">
+              <PropertyRef Name="GameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPlayedGames_Games">
+          <End Type="FlipCardGameModel.Games" Role="Games" Multiplicity="1" />
+          <End Type="FlipCardGameModel.UserPlayedGames" Role="UserPlayedGames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="IDGame" />
+            </Principal>
+            <Dependent Role="UserPlayedGames">
+              <PropertyRef Name="GameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitePageFragments_SitePages">
+          <End Type="FlipCardGameModel.SitePages" Role="SitePages" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FlipCardGameModel.SitePageFragments" Role="SitePageFragments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SitePages">
+              <PropertyRef Name="IDPage" />
+            </Principal>
+            <Dependent Role="SitePageFragments">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPlayedGames_Users">
+          <End Type="FlipCardGameModel.Users" Role="Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FlipCardGameModel.UserPlayedGames" Role="UserPlayedGames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="UserPlayedGames">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webpages_Membership_Users">
+          <End Type="FlipCardGameModel.Users" Role="Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FlipCardGameModel.webpages_Membership" Role="webpages_Membership" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="webpages_Membership">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="webpages_UsersInRoles">
+          <End Type="FlipCardGameModel.Users" Role="Users" Multiplicity="*" />
+          <End Type="FlipCardGameModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FlipCardGameModelStoreContainer" CdmEntityContainer="FlipCardGameEntities">
+          <EntitySetMapping Name="ContactUs">
+            <EntityTypeMapping TypeName="FlipCardGameModel.ContactUs">
+              <MappingFragment StoreEntitySet="ContactUs">
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="MessageBody" ColumnName="MessageBody" />
+                <ScalarProperty Name="MessageSubject" ColumnName="MessageSubject" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="PersonFullName" ColumnName="PersonFullName" />
+                <ScalarProperty Name="MessageDateTime" ColumnName="MessageDateTime" />
+                <ScalarProperty Name="IDMessage" ColumnName="IDMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameQuestions">
+            <EntityTypeMapping TypeName="FlipCardGameModel.GameQuestions">
+              <MappingFragment StoreEntitySet="GameQuestions">
+                <ScalarProperty Name="AnswerContent" ColumnName="AnswerContent" />
+                <ScalarProperty Name="QuestionContent" ColumnName="QuestionContent" />
+                <ScalarProperty Name="QuestionIndex" ColumnName="QuestionIndex" />
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="FlipCardGameModel.Games">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="CardsCount" ColumnName="CardsCount" />
+                <ScalarProperty Name="TimesToPlay" ColumnName="TimesToPlay" />
+                <ScalarProperty Name="CardBackImagePath" ColumnName="CardBackImagePath" />
+                <ScalarProperty Name="Timeout" ColumnName="Timeout" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IDGame" ColumnName="IDGame" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SitePageFragments">
+            <EntityTypeMapping TypeName="FlipCardGameModel.SitePageFragments">
+              <MappingFragment StoreEntitySet="SitePageFragments">
+                <ScalarProperty Name="PageContent" ColumnName="PageContent" />
+                <ScalarProperty Name="FragmentIndex" ColumnName="FragmentIndex" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SitePages">
+            <EntityTypeMapping TypeName="FlipCardGameModel.SitePages">
+              <MappingFragment StoreEntitySet="SitePages">
+                <ScalarProperty Name="IsScript" ColumnName="IsScript" />
+                <ScalarProperty Name="IsMetaEditable" ColumnName="IsMetaEditable" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="HasFragments" ColumnName="HasFragments" />
+                <ScalarProperty Name="PageContent" ColumnName="PageContent" />
+                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
+                <ScalarProperty Name="PageInternalName" ColumnName="PageInternalName" />
+                <ScalarProperty Name="IDPage" ColumnName="IDPage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPlayedGames">
+            <EntityTypeMapping TypeName="FlipCardGameModel.UserPlayedGames">
+              <MappingFragment StoreEntitySet="UserPlayedGames">
+                <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
+                <ScalarProperty Name="StartedAt" ColumnName="StartedAt" />
+                <ScalarProperty Name="GameplayDuration" ColumnName="GameplayDuration" />
+                <ScalarProperty Name="GamePlayIndex" ColumnName="GamePlayIndex" />
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FlipCardGameModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsEmployee" ColumnName="IsEmployee" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="RegisterationDateTime" ColumnName="RegisterationDateTime" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserFullName" ColumnName="UserFullName" />
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="FlipCardGameModel.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="FlipCardGameModel.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="FlipCardGameModel.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleID" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="IDUser" ColumnName="UserID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

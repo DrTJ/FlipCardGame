@@ -1,0 +1,31 @@
+﻿@model XSS_Victim.DAL.Posts
+@{
+    ViewBag.Title = "New post";
+}
+
+<div class="Title">@ViewBag.Title</div>
+
+<section style="padding: 10pt;">
+    @using (Html.BeginForm("Add", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="inputUL">
+            <li>
+                <label class="inputLabel" style="width: 50pt; display: inline-block; vertical-align: top;">Title: </label>
+                @Html.TextBoxFor(m => m.PostTitle, new { Style="width: 670pt;" })
+                @Html.ValidationMessageFor(m => m.PostTitle)
+            </li>
+            <li>
+                <label class="inputLabel" style="width: 50pt; display: inline-block; vertical-align: top;">Content: </label>
+                @Html.TextAreaFor(m => m.PostContent, new { Style="width: 668pt; height: 200pt;" })
+                @Html.ValidationMessageFor(m => m.PostContent)
+            </li>
+            <li>
+                @Html.CheckBoxFor(m => m.IsPublished, new { style="margin-left: 50pt;" })
+                @Html.LabelFor(m => m.IsPublished, "Publish the post", new { @class = "checkboxLabel" })
+            </li>
+        </ul>
+        <input type="submit" value="Save" style="float: right; padding: 3pt 15pt; display: block; margin-bottom: 3pt;" />
+        <div style="clear: both"></div>
+    }
+</section>

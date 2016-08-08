@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title - XSS Victims Network</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="~/Content/css/Site.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/fb-buttons.css">
+    <script src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Content/js/jquery.masonry.min.js"></script>
+
+    <link href="~/Content/css/RoyaOptionItemStyle.css" rel="stylesheet" />
+    <link href="~/Content/css/RoyaToolTip.css" rel="stylesheet" />
+
+    @RenderSection("JS", false)
+    
+    <script>
+        function setCookie(cname, cvalue, exdays, add) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            var cooked = cname + "=" + cvalue + "; path=/; "; //+ expires;
+            if (add) {
+                document.cookie += cooked;
+            }
+            else {
+                document.cookie = cooked;
+            }
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        $(document).ready(function () {
+            SaveCookies();
+        });
+
+        function SaveCookies() {
+            @{ 
+            var res = "";
+            for (int i = 0; i < HttpContext.Current.Request.Cookies.Count; i++)
+            {
+                res += string.Format("{0}={1};", HttpContext.Current.Request.Cookies[i].Name, HttpContext.Current.Request.Cookies[i].Value);
+            }
+        }
+
+            var cookie = '@res';
+            var cookiesList = cookie.split(";", 1000);
+            for (var i = 0; i < cookiesList.length; i++) {
+                var equalSignIndex = cookiesList[i].indexOf("=");
+
+                var itemName = cookiesList[i].substring(0, equalSignIndex);
+                var itemValue = cookiesList[i].substring(equalSignIndex + 1);
+
+                if (itemName != null && itemName != "") {
+                    setCookie(itemName, itemValue, 5, true);
+                }
+            }
+
+            //document.getElementById("CookiesContainer").innerText = "Cookies are: " + cookie + "\n document.cookie = " + document.cookie;   //document.cookie["ASPX" + "AUTH"]  // getCookie("ASPX" + "AUTH")
+            //document.getElementById("CookiesContainer").onclick = function () {
+            //    document.getElementById("CookiesContainer").innerText = "Document.cookie = " + getCookie(".ASPXAUTH");
+            //}
+        }
+    </script>
+</head>
+<body>
+    @*<div id="CookiesContainer" style="display: block; background-color: yellow; color: black; min-height: 50pt; font: normal 18px arial; overflow-wrap:break-word"></div>*@
+    <header>
+        <span class="WebsiteTitle"><a href="/">XSS Victim's Social Network!</a></span>
+
+        <div class="LoginRegisterSection">
+            @if (string.IsNullOrEmpty(RoyaMVC_EN.AccountManagement.CurrentUser.DisplayName))
+            {
+            <a class="uibutton icon add" href='@Url.Action("Register", "Account")'>Register</a>
+            <a class="uibutton icon add" href='@Url.Action("Login", "Account")'>Login</a>
+            }
+            else
+            {
+                <form action="@Url.Action("LogOff", "Account")" method="post" id="logoutForm">
+                    @Html.AntiForgeryToken()
+                    <div class="WelcomeUserTitle">
+                        Welcome,
+                        <a href='@Url.Action("Panel", "Profile")'> @RoyaMVC_EN.AccountManagement.CurrentUser.DisplayName</a>
+                        <span style="font-size: 0.8em">
+                            [<a href='@Url.Action("Panel", "Profile")'>Control Panel</a>, <a href='javascript:document.forms["logoutForm"].submit();'>Logout</a>]
+                        </span>
+                    </div>
+                </form>
+            }
+        </div>
+        
+        <div style="clear:both;"></div>
+    </header>
+
+    @RenderSection("Header", false)
+
+    <div class="Content">
+        @RenderBody()
+    </div>
+
+    @if (IsSectionDefined("Footer"))
+    {
+        <div class="Content">
+		    @RenderSection("Footer", false)
+	    </div>
+    }
+    
+    <hr style="color:#c00;background-color:#ccc;height:1px;border:none; width:999px;" />
+    <div id="subfooter" style="width:980px; margin:5pt auto 15pt auto; display: block">
+        <div id="sfleft" style="font:10pt tahoma;line-height:22px; text-align: left;">
+            Mohammad Taghi Jahed | .Net engineer | taghi.jahed@yahoo.com | 3044337163
+            <br/>
+            You can download the code from <a style="font-weight: bold;" href="https://github.com/DrTJ/XSS_Victim/tree/processa">Github! [ https://github.com/DrTJ/XSS_Victim ]</a>
+        </div>
+    </div>
+</body>
+</html>

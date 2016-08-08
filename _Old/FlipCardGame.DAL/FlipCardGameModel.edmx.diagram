@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5b3b6009259249258d4dcc474a07d096" Name="Diagram1">
+        <EntityTypeShape EntityType="FlipCardGameModel.ContactUs" Width="1.5" PointX="8.75" PointY="6" />
+        <EntityTypeShape EntityType="FlipCardGameModel.GameQuestions" Width="1.5" PointX="6" PointY="2.75" />
+        <EntityTypeShape EntityType="FlipCardGameModel.Games" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FlipCardGameModel.SitePageFragments" Width="1.5" PointX="11" PointY="2.75" />
+        <EntityTypeShape EntityType="FlipCardGameModel.SitePages" Width="1.5" PointX="8.75" PointY="2.25" />
+        <EntityTypeShape EntityType="FlipCardGameModel.UserPlayedGames" Width="1.5" PointX="6" PointY="5.75" />
+        <EntityTypeShape EntityType="FlipCardGameModel.Users" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="FlipCardGameModel.webpages_Membership" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="FlipCardGameModel.webpages_Roles" Width="1.5" PointX="3" PointY="11.625" />
+        <AssociationConnector Association="FlipCardGameModel.FK_GameQuestions_Games" />
+        <AssociationConnector Association="FlipCardGameModel.FK_UserPlayedGames_Games" />
+        <AssociationConnector Association="FlipCardGameModel.FK_SitePageFragments_SitePages" />
+        <AssociationConnector Association="FlipCardGameModel.FK_UserPlayedGames_Users" />
+        <AssociationConnector Association="FlipCardGameModel.FK_webpages_Membership_Users" />
+        <AssociationConnector Association="FlipCardGameModel.webpages_UsersInRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

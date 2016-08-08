@@ -1,0 +1,51 @@
+﻿@model FlipCardGame.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="Title">@ViewBag.Title</div>
+
+<section style="padding: 10pt;">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="inputUL">
+            <li>
+                <label class="inputLabel" style="width: 105pt; display: inline-block;">Username: </label>
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m=> m.UserName)
+            </li>
+            <li>
+                <label class="inputLabel" style="width: 105pt; display: inline-block;">Password: </label>
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </li>
+            <li>
+                <label class="inputLabel" style="width: 105pt; display: inline-block;">Confirm password: </label>
+                @Html.PasswordFor(m => m.ConfirmPassword)
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </li>
+
+            <li>
+                <label class="inputLabel" style="width: 105pt; display: inline-block;">Full name: </label>
+                @Html.TextBoxFor(m => m.UserFullName)
+                @Html.ValidationMessageFor(m => m.UserFullName)
+            </li>
+
+            <li>
+                <label class="inputLabel" style="width: 105pt; display: inline-block;">Email: </label>
+                @Html.TextBoxFor(m => m.EMail)
+                @Html.ValidationMessageFor(m => m.EMail)
+            </li>
+
+            <li>
+                <label class="inputLabel" style="width: 105pt; display: inline-block;">Mobile: </label>
+                @Html.TextBoxFor(m => m.Mobile)
+                @Html.ValidationMessageFor(m => m.Mobile)
+            </li>
+        </ul>
+        <input type="submit" value="Register" style="margin-left: 105pt; padding: 3pt 15pt;" />
+    }
+</section>
+
+
